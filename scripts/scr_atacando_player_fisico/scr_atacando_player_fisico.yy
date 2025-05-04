@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_atacando_player_fisico",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_atacando_player_fisico",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
