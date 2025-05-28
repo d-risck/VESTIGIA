@@ -6,9 +6,12 @@ vida_atual = vida_max;
 
 vel_h = 0;
 vel_v = 0;
+mid_vel_h = 0;
 
 max_vel_h = 1;
 max_vel_v = 1;
+
+
 
 massa = 1;
 ataque = 1;

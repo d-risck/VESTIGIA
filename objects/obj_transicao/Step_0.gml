@@ -2,7 +2,7 @@
 // You can write your code in this editor
 if(mudei)
 {
-	alpha -= .2;
+	alpha -= .01;
 }
 else
 {
@@ -12,6 +12,8 @@ else
 if(alpha >= 1)
 {
 	room_goto(destino)
+	obj_player.x = destino_x;
+	obj_player.y = destino_y;
 }
 
 if(mudei && alpha <=0)

@@ -1,6 +1,14 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+if(abs(vel_h) <= max_vel_h)
+{
+	vel_h += mid_vel_h;	
+}
+else{
+	vel_h = 0;	
+}
+
 // Sistema de colisão e movimentação
 var _vel_h = sign(vel_h);
 var _vel_v = sign(vel_v);

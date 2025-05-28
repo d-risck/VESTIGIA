@@ -1,4 +1,4 @@
-opcoes = ["Iniciar Jogo", "Carregar", "Sair"];
+opcoes = ["Iniciar Jogo", "Sair"];
 index = 0;
 op_max = array_length(opcoes);
 

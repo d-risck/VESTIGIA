@@ -1,5 +1,8 @@
 /// @description Insert description here
 // You can write your code in this editor
+
+if(global.pause) exit
+
 var chao = place_meeting(x, y + 1, obj_block);
 
 if(!chao) 

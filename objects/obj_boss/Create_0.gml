@@ -4,7 +4,7 @@
 // Inherit the parent event
 event_inherited();
 
-max_vel_h = 1;
+max_vel_h = 2;
 max_vel_v = 3;
 vida_max = 20;
 vida_atual = vida_max;
