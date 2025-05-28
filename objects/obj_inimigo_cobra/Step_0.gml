@@ -1,81 +1,84 @@
-/// @description Insert description here
-// You can write your code in this editor
+if (global.pause) exit;
 
-if(global.pause){
-	vel_h = 0;
-	vel_v = 0;
-	exit;
+var chao = place_meeting(x, y + 1, obj_bloco);
+
+if (!chao) {
+    vel_v += GRAVIDADE * massa * global.vel_mult;
 }
 
-var chao = place_meeting(x, y + 1, obj_block);
-
-if(!chao) 
-{
-	vel_v += GRAVIDADE * massa * global.vel_mult;
+if (instance_exists(obj_player)) {
+    var dist_player = point_distance(x, y, obj_player.x, obj_player.y);
 }
 
-switch(estado)
-{
-	case "parado":
-	{
-		vel_h = 0;
-		timer_estado++;
-		if(sprite_index != spr_inimigo_cobra_parada)
-		{
-			image_index = 0 
-			sprite_index = spr_inimigo_cobra_parada;
-		}
-		 
-		if(irandom(timer_estado) > 100)
-		{
-			estado = choose("andando","parado");
-			timer_estado = 0;
-		}
-		
-		scr_atacando_player_fisico(obj_player, dist, xscale);
-		
-		break;
-	}
-	
-	case "andando" :
-	{
-		timer_estado++;
-		if(sprite_index != spr_inimigo_cobra_andando)
-		{
-			image_index = 0 
-			sprite_index = spr_inimigo_cobra_andando;
-		}
-		
-		if(vel_h == 0)
-		{
-			vel_h = choose(-1, 1);
-		}
-		
-		if(irandom(timer_estado) > 200)
-		{
-			estado = choose("parado","parado","andando");
-			timer_estado = 0;
-		}
-		
-		scr_atacando_player_fisico(obj_player,dist,xscale);
-		
-		break;
-	}
-	
-	case "ataque" :
-	{
-		atacando(spr_inimigo_cobra_atacando, 3, 4, sprite_width/3 + 20, -sprite_height/2);
-		break;
-	}
-	
-	case "hit" :
-	{
-		levando_dano(spr_inimigo_cobra_sofrendo_dano, 2)
-		break;
-	}
-	
-	case "morto" :
-	{
-		morrendo(spr_inimigo_cobra_morrendo);
-	}
+if (instance_exists(obj_player)  && estado != "ataque") {
+    image_xscale = (obj_player.x < x) ? -1 : 1;
+}
+
+switch (estado) {
+
+    case "parado":
+    {
+        vel_h = 0;
+
+        if (sprite_index != spr_inimigo_cobra_idle) {
+            image_index = 0;
+            sprite_index = spr_inimigo_cobra_idle;
+        }
+
+        if (instance_exists(obj_player)) {
+            if (dist_player <= dist) {
+                estado = "ataque";
+            } else if (dist_player <= 120) {
+                estado = "andando";
+            }
+        }
+
+        break;
+    }
+
+    case "andando":
+    {
+        if (sprite_index != spr_inimigo_cobra_movimento) {
+            image_index = 0;
+            sprite_index = spr_inimigo_cobra_movimento;
+        }
+
+        if (instance_exists(obj_player)) {
+            if (dist_player <= dist) {
+                vel_h = 0;
+                estado = "ataque";
+            } 
+			
+			else if(dist_player >= 150)  {
+            vel_h = 0;
+            estado = "parado";
+			} 
+			
+			else {
+                // Segue o player horizontalmente usando image_xscale * max_vel_h
+                vel_h = image_xscale * max_vel_h;
+            }
+			
+        }
+
+        break;
+    }
+
+    case "ataque":
+    {
+        atacando(spr_inimigo_cobra_ataque, 3, 4,(sprite_width / 3 + 20) - (2 * 20) * (image_xscale == -1), -sprite_height / 2);
+        break;
+    }
+
+    case "hit":
+    {
+        levando_dano(spr_inimigo_cobra_hit, 2);
+        break;
+    }
+
+    case "morto":
+    {
+        morrendo(spr_inimigo_cobra_morte);
+        break;
+    }
 }

@@ -22,14 +22,14 @@ var pause = keyboard_check(vk_escape);
 var dash = keyboard_check(ord("L"));
 
 // VERIFICA SE ESTÁ NO CHÃO
-var chao = place_meeting(x, y + 1, obj_block);
+var chao = place_meeting(x, y + 1, obj_bloco);
 
 // BUFF DE ATAQUE NEGATIVO
 if (ataque_buff < 0) ataque_buff -= 2;
 
 // VERIFICA PAREDE NA ESQUERDA E DIREITA
-var wall_left = place_meeting(x - 1, y, obj_block);
-var wall_right = place_meeting(x + 1, y, obj_block);
+var wall_left = place_meeting(x - 1, y, obj_bloco);
+var wall_right = place_meeting(x + 1, y, obj_bloco);
 var wall = wall_left || wall_right;
 
 // MOVIMENTO HORIZONTAL NORMAL
@@ -48,7 +48,7 @@ switch (estado) {
     case "parado":
     {
         mid_vel_h = 0;
-        sprite_index = spr_player_parado;
+        sprite_index = spr_player_idle;
 
         if (vel_h != 0) {
             estado = "movendo";
@@ -56,12 +56,15 @@ switch (estado) {
             estado = "pulando";
         } else if (jump_pressed) {
             estado = "pulando";
+			audio_play_sound(snd_player_pulo, 1, false);
             vel_v = -max_vel_v;
             image_index = 0;
         } else if (attack) {
+			audio_play_sound(snd_player_ataque, 1, false);
             inicia_ataque();
         } else if (dash) {
             estado = "dash";
+			audio_play_sound(snd_player_rolamento, 1, false);
             image_index = 0;
         }
 
@@ -70,11 +73,11 @@ switch (estado) {
 
     case "movendo":
     {
-        sprite_index = spr_player_movendo;
+        sprite_index = spr_player_movimento;
 
-        //if (!audio_is_playing(snd_steps)) {
-          //  audio_play_sound(snd_steps, 2, false);
-        //}
+        if (!audio_is_playing(snd_player_passos)) {
+            audio_play_sound(snd_player_passos, 2, false);
+        }
 
         if (abs(vel_h) < 0.1) {
             estado = "parado";
@@ -84,12 +87,15 @@ switch (estado) {
             estado = "pulando";
         } else if (jump_pressed) {
             estado = "pulando";
+			audio_play_sound(snd_player_pulo, 1, false);
             vel_v = -max_vel_v;
             image_index = 0;
         } else if (attack) {
+			audio_play_sound(snd_player_ataque, 1, false);
             inicia_ataque();
         } else if (dash) {
             estado = "dash";
+			audio_play_sound(snd_player_pulo, 1, false);
             image_index = 0;
         }
 
@@ -101,9 +107,9 @@ switch (estado) {
         aplicando_gravidade();
 
         if (vel_v > 0) {
-            sprite_index = spr_player_caindo;
+            sprite_index = spr_player_queda;
         } else {
-            sprite_index = spr_player_pulando;
+            sprite_index = spr_player_pulo;
             if (image_index >= image_number - 1) {
                 image_index = image_number - 1;
             }
@@ -119,11 +125,12 @@ switch (estado) {
 
         // PAREDE PARA WALL JUMP
         if (wall && global.power_ups[0]) {
-            sprite_index = spr_player_wall;
+            sprite_index = spr_player_parede;
 
             if (jump_pressed && can_wall_jump) {
                 vel_v = -max_vel_v;
                 vel_h = max_vel_h * 1.0 * (wall_left ? 1 : -1); // impulso para lado
+				audio_play_sound(snd_player_pulo, 1, false);
                 fez_wall_jump = true;
                 can_wall_jump = false;
                 alarm[0] = room_speed / 2; // meio segundo
@@ -142,11 +149,11 @@ switch (estado) {
 
     case "hit":
     {
-        if (sprite_index != spr_player_levando_dano) {
-            sprite_index = spr_player_levando_dano;
+        if (sprite_index != spr_player_hit) {
+            sprite_index = spr_player_hit;
             image_index = 0;
             screenshake(6);
-
+			audio_play_sound(snd_player_hit, 1, false);
             invencivel = true;
             tempo_invencivel = invencivel_timer;
         }
@@ -176,9 +183,9 @@ switch (estado) {
 
         vel_h = 0;
 
-        if (sprite_index != spr_player_morrendo) {
+        if (sprite_index != spr_player_morte) {
             image_index = 0;
-            sprite_index = spr_player_morrendo;
+            sprite_index = spr_player_morte;
         }
 
         if (image_index >= image_number - 1) {
@@ -193,9 +200,11 @@ switch (estado) {
         vel_h = 0;
 
         if (combo == 0) {
-            sprite_index = spr_player_atacando1;
+            sprite_index = spr_player_ataque_01;
+			
         } else if (combo == 1) {
-            sprite_index = spr_player_atacando2;
+            sprite_index = spr_player_ataque_02;
+			
         }
 
         if (image_index >= 1 && dano == noone && posso) {
@@ -209,10 +218,16 @@ switch (estado) {
             ataque_buff = room_speed;
         }
 
-        if (ataque_buff && combo < 1 && image_index >= image_number - 1) {
+        if (ataque_buff > 0 && combo < 1 && image_index >= image_number - 1) {
             combo++;
             image_index = 0;
             posso = true;
+			if (instance_exists(dano)) {
+            instance_destroy(dano, false);
+			 }
+			dano = noone;
+			ataque_buff = 0;
+			audio_play_sound(snd_player_ataque, 1, false);
         }
 
         ataque_buff = 0;
@@ -245,7 +260,7 @@ switch (estado) {
     case "dash":
     {
         aplicando_gravidade();
-        sprite_index = spr_player_dash;
+        sprite_index = spr_player_rolamento;
 
         vel_h = image_xscale * dash_vel;
 

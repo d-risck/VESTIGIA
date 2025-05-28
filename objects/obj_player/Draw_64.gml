@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+if(desenhar_vida){
 if(vida_atual = 6)
 {
 draw_sprite(spr_vida,0,80,80);
@@ -47,4 +48,5 @@ if(vida_atual = 0)
 draw_sprite(spr_vida,2,80,80);
 draw_sprite(spr_vida,2,120,80);
 draw_sprite(spr_vida,2,160,80);
+}
 }

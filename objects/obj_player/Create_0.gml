@@ -28,7 +28,7 @@ img_spd = 30;
 dano = noone;    
 posso = true;     
 ataque_buff = room_speed; 
-
+desenhar_vida = true
 // INVENCIBILIDADE
 invencivel = false;                  
 invencivel_timer = room_speed * 2;   
@@ -45,7 +45,7 @@ inicia_ataque = function() {
 
 // FUNÇÃO: Aplica gravidade
 aplicando_gravidade = function() {
-    var chao = place_meeting(x, y + 1, obj_block);
+    var chao = place_meeting(x, y + 1, obj_bloco);
 
     if (!chao) {
         if (vel_v < max_vel_v * 2) {

@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_lobo_passos",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":1.0323129,
+  "name":"snd_lobo_passos",
+  "parent":{
+    "name":"lobo",
+    "path":"folders/Sounds/inimigos/lobo.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_lobo_passos.wav",
+  "type":0,
+  "volume":1.0,
+}

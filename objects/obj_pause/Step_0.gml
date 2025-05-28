@@ -1,5 +1,6 @@
 if (keyboard_check_pressed(vk_escape)) {
     global.pause = !global.pause;
+	obj_player.desenhar_vida = !obj_player.desenhar_vida;
 }
 
 if (global.pause) {
@@ -17,6 +18,7 @@ if (global.pause) {
     // Ação ao pressionar Enter
     if (keyboard_check_pressed(vk_enter)) {
         if (index == 0) {
+			obj_player.desenhar_vida = true;
             global.pause = false; // Retomar jogo
         }
         else if (index == 1) {

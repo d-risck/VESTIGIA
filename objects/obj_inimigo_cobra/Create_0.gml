@@ -4,10 +4,10 @@
 // Inherit the parent event
 event_inherited();
 
-max_vel_h = 1;
+max_vel_h = 1.5;
 
 vida_max = 1;
 vida_atual = vida_max;
-ataque = 1;
-dist = 24;
+ataque = 2;
+dist = 25;
 timer_estado = 0;

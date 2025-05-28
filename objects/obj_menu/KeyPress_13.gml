@@ -1,8 +1,12 @@
 if(index = 0){
- room_goto(fase_01)
+ instance_create_layer(0, 0, "Transicao", obj_transicao_menu);
 }
 
-else if(index = 1){
+if(index = 1){
+ room_goto(rm_menu_controles);
+}
+
+else if(index = 2){
  game_end();	
 }
 

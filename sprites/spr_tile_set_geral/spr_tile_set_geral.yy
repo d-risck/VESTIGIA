@@ -44,8 +44,8 @@
   },
   "origin":0,
   "parent":{
-    "name":"Tile Sets",
-    "path":"folders/Sprites/Tile Sets.yy",
+    "name":"Cenario",
+    "path":"folders/Sprites/Cenario.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

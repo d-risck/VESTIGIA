@@ -11,8 +11,8 @@
   "name":"obj_transicao",
   "overriddenProperties":[],
   "parent":{
-    "name":"Misc",
-    "path":"folders/Objects/Misc.yy",
+    "name":"Transições",
+    "path":"folders/Objects/Transições.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -11,8 +11,8 @@
   "name":"obj_entidade",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Pais",
+    "path":"folders/Objects/Pais.yy",
   },
   "parentObjectId":null,
   "persistent":false,

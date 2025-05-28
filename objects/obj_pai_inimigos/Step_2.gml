@@ -6,7 +6,7 @@ event_inherited();
 
 var _vel_h = sign(vel_h);
 
-if(place_meeting(x + _vel_h, y, obj_block2))
+if(place_meeting(x + _vel_h, y, obj_bloco_inimigos))
 {	
 	if(vel_h = 1)
 	{
@@ -16,4 +16,8 @@ if(place_meeting(x + _vel_h, y, obj_block2))
 	{
 		vel_h = 1;
 	}
+}
+
+if (dano_timer > 0) {
+    dano_timer--;
 }

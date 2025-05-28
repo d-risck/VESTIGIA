@@ -4,6 +4,8 @@
 // Inherit the parent event
 event_inherited();
 
+dano_timer = 0;
+
 ///@method levando_dano(sprite, image_index)
 levando_dano = function(_sprite, _image_index)
 {
