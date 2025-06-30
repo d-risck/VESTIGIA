@@ -1,6 +1,6 @@
-/// @description Código de comportamento do boss
+/// @description Código de comportamento do Esqueleto Boss (Polido)
 
-if(global.pause) exit
+if(global.pause) exit;
 
 var chao = place_meeting(x, y + 1, obj_bloco);
 
@@ -32,6 +32,11 @@ switch(estado)
 	
 	case "andando":
 	{
+		// Toca o som de passos
+		if (!audio_is_playing(snd_esqueleto_passos)) {
+			audio_play_sound(snd_esqueleto_passos, 2, false);
+		}
+
 		if(sprite_index != spr_inimigo_esqueleto_boss_movimento)
 		{
 			sprite_index = spr_inimigo_esqueleto_boss_movimento;
@@ -42,28 +47,33 @@ switch(estado)
 		{
 			var _dist = point_distance(x,y,obj_player.x, obj_player.y);
 			var _dir = point_direction(x,y,obj_player.x, obj_player.y);
-
-			// Virar sprite na direção do player
 			image_xscale = (obj_player.x < x) ? -1 : 1;
 			
-			// Se player estiver longe demais, parar
+			// --- CORREÇÃO: Lógica de distância sem lacunas ---
 			if(_dist > 400)
 			{
 				vel_h = 0;
 				estado = "parado";
-				break;
+				audio_stop_sound(snd_esqueleto_passos); // POLIMENTO: Para o som de passos
 			}
-			
-			// Se estiver em distância média, mover em direção ao player
-			if(_dist <= 150 && _dist > 40)
-			{
-				vel_h = lengthdir_x(max_vel_h, _dir);
-			}
-			else if (_dist <= 40)
+			else if (_dist <= 30)
 			{
 				vel_h = 0;
 				estado = "ataque";
+				audio_stop_sound(snd_esqueleto_passos); // POLIMENTO: Para o som de passos
+				
 				qual_ataque = irandom(1);
+				
+				// POLIMENTO: Nomes de som consistentes
+				switch(qual_ataque)
+				{
+					case 0: audio_play_sound(snd_boss_ataque_1, 10, false); break;
+					case 1: audio_play_sound(snd_esqueleto_boss_ataque_2, 10, false); break;
+				}
+			}
+			else // Se não, ANDE!
+			{
+				vel_h = lengthdir_x(max_vel_h, _dir);
 			}
 		}
 		break;
@@ -84,36 +94,51 @@ switch(estado)
 				break;
 			}
 		}
+
+		// --- CORREÇÃO: Adicionada lógica para sair do estado de ataque ---
+		if (image_index >= image_number - 1)
+		{
+			estado = "parado"; // Volta para o estado parado após o ataque
+		}
 		break;
 	}
 	
 	case "hit" :
 	{
+		if (sprite_index != spr_inimigo_esqueleto_boss_hit)
+		{
+			sprite_index = spr_inimigo_esqueleto_boss_hit;
+			image_index = 0;
+			audio_play_sound(snd_esqueleto_hit, 10, false);
+		}
+
 		dano_timer = 20;
 		levando_dano(spr_inimigo_esqueleto_boss_hit, 2);
 		break;
 	}
 	
-	
 	case "morto":
-{
-    // 1. Garante que a animação de morte está tocando
-    morrendo(spr_inimigo_esqueleto_boss_morte);
+	{
+		if (sprite_index != spr_inimigo_esqueleto_boss_morte)
+		{
+			sprite_index = spr_inimigo_esqueleto_boss_morte;
+			image_index = 0;
+			// POLIMENTO: Usando um som de morte dedicado
+			audio_play_sound(snd_esqueleto_hit, 10, false); 
+		}
 
-    // 3. Verifica se a animação chegou ao fim
-    if (image_index >= image_number - 1)
-    {
-        // 4. Só então, cria a transição e esconde a vida do jogador
-        // (Verificação extra para não criar a transição várias vezes)
-        if (!instance_exists(obj_powerup))
-        {
-            var _powerup_instancia = instance_create_layer(1545, 483, "Instances", obj_powerup);
+		morrendo(spr_inimigo_esqueleto_boss_morte);
 
-            // Agora, use a variável para alterar a escala da instância que acabamos de criar
-            _powerup_instancia.image_xscale = 0.5; // Metade da largura (50%)
-            _powerup_instancia.image_yscale = 0.5; // Metade da altura (50%)
-        }
-    }
-    break; // Não esqueça o break!
-}
+		if (image_index >= image_number - 1)
+		{
+			if (!instance_exists(obj_powerup))
+			{
+				// POLIMENTO: Dropa o item na posição do boss
+				var _powerup_instancia = instance_create_layer(1348, 485, "Instances", obj_powerup);
+				_powerup_instancia.image_xscale = 0.75;
+				_powerup_instancia.image_yscale = 0.75;
+			}
+		}
+		break; 
+	}
 }

@@ -14,7 +14,7 @@ var _x = _gui_largura - _margem;
 var _y = _gui_altura - _margem;
 
 // --- Configurações de Desenho ---
-draw_set_font(Font3);
+draw_set_font(fnt_menu);
 draw_set_color(c_red); // Ou c_red, como preferir, já que é a única opção
 
 // ESTA É A PARTE MAIS IMPORTANTE: O Alinhamento

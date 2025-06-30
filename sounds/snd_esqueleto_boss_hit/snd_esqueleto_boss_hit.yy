@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_esqueleto_boss_hit",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.5197279,
+  "name":"snd_esqueleto_boss_hit",
+  "parent":{
+    "name":"esqueleto_boss",
+    "path":"folders/Sounds/inimigos/esqueleto_boss.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_esqueleto_boss_hit.wav",
+  "type":0,
+  "volume":1.0,
+}

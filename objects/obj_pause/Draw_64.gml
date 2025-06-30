@@ -5,7 +5,7 @@ if (global.pause) {
     draw_rectangle(0, 0, display_get_width(), display_get_height(), false);
     draw_set_alpha(1);
 
-    draw_set_font(Font3); // Use a fonte desejada
+    draw_set_font(fnt_menu); // Use a fonte desejada
     draw_set_halign(fa_center);
     draw_set_valign(fa_center);
 

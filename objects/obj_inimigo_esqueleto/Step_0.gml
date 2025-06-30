@@ -41,9 +41,9 @@ switch (estado) {
 
     case "andando":
     {
-		/*if (!audio_is_playing(snd_esqueleto_passos)) {
+		if (!audio_is_playing(snd_esqueleto_passos)) {
             audio_play_sound(snd_esqueleto_passos, 2, false);
-        }*/
+        }
 		
         if (sprite_index != spr_inimigo_esqueleto_movimento) {
             image_index = 0;
@@ -89,7 +89,7 @@ switch (estado) {
 			audio_play_sound(snd_esqueleto_hit, 10, false);
 		}
 		
-        levando_dano(spr_inimigo_esqueleto_hit, 1);
+        levando_dano(spr_inimigo_esqueleto_hit, 2);
 		
         break;
     }
@@ -104,6 +104,7 @@ switch (estado) {
 
             audio_play_sound(snd_esqueleto_hit, 10, false); // Usamos prioridade 10 para garantir que ele toque
         }
+	
         morrendo(spr_inimigo_esqueleto_morte);
         break;
     }

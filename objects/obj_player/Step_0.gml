@@ -17,15 +17,17 @@ var right = keyboard_check(ord("D"));
 var left = keyboard_check(ord("A"));
 var jump = keyboard_check(vk_space);
 var jump_pressed = keyboard_check_pressed(vk_space);
-var attack = keyboard_check(ord("K")) || keyboard_check(vk_left);
+var attack = keyboard_check_pressed(ord("K")) || mouse_check_button_pressed(mb_left);
 var pause = keyboard_check(vk_escape);
-var dash = keyboard_check(ord("L"));
+var dash = keyboard_check(ord("L")) || mouse_check_button_pressed(mb_right);
 
 // VERIFICA SE ESTÁ NO CHÃO
 var chao = place_meeting(x, y + 1, obj_bloco);
 
 // BUFF DE ATAQUE NEGATIVO
-if (ataque_buff < 0) ataque_buff -= 2;
+if (ataque_buff > 0) {
+	ataque_buff--;
+}
 
 // VERIFICA PAREDE NA ESQUERDA E DIREITA
 var wall_left = place_meeting(x - 1, y, obj_bloco);
@@ -215,7 +217,8 @@ switch (estado) {
         }
 
         if (attack && combo < 1) {
-            ataque_buff = room_speed;
+			posso = true;
+            ataque_buff = room_speed /2;
         }
 
         if (ataque_buff > 0 && combo < 1 && image_index >= image_number - 1) {
@@ -226,11 +229,9 @@ switch (estado) {
             instance_destroy(dano, false);
 			 }
 			dano = noone;
-			ataque_buff = 0;
 			audio_play_sound(snd_player_ataque, 1, false);
         }
 
-        ataque_buff = 0;
 
         if (image_index > image_number - 1) {
             estado = "parado";

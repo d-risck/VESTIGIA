@@ -28,6 +28,7 @@ switch (estado) {
         if (instance_exists(obj_player)) {
             if (dist_player <= dist) {
                 estado = "ataque";
+				audio_play_sound(snd_cobra_ataque, 2, false);
             } else if (dist_player <= 120) {
                 estado = "andando";
             }
@@ -38,6 +39,10 @@ switch (estado) {
 
     case "andando":
     {
+		if (!audio_is_playing(snd_cobra_passos)) {
+            audio_play_sound(snd_cobra_passos, 2, false);
+        }
+		
         if (sprite_index != spr_inimigo_cobra_movimento) {
             image_index = 0;
             sprite_index = spr_inimigo_cobra_movimento;
@@ -46,6 +51,7 @@ switch (estado) {
         if (instance_exists(obj_player)) {
             if (dist_player <= dist) {
                 vel_h = 0;
+				audio_play_sound(snd_cobra_ataque, 2, false);
                 estado = "ataque";
             } 
 			
@@ -72,12 +78,30 @@ switch (estado) {
 
     case "hit":
     {
+		if (sprite_index != spr_inimigo_cobra_hit) 
+		{
+       
+			sprite_index = spr_inimigo_cobra_hit;
+			image_index = 0; // Reinicia a animação do início
+
+			audio_play_sound(snd_cobra_hit, 10, false);
+		}
+		
         levando_dano(spr_inimigo_cobra_hit, 2);
         break;
     }
 
     case "morto":
     {
+		if (sprite_index != spr_inimigo_cobra_morte) 
+		{
+       
+			sprite_index = spr_inimigo_cobra_morte;
+			image_index = 0; // Reinicia a animação do início
+
+			audio_play_sound(snd_cobra_hit, 10, false);
+		}
+		
         morrendo(spr_inimigo_cobra_morte);
         break;
     }

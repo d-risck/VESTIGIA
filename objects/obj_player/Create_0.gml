@@ -25,9 +25,9 @@ mostra_estado = false; // Mostrar estado no debug (opcional)
 // ATAQUE
 combo = 0;       
 img_spd = 30;   
-dano = noone;    
-posso = true;     
-ataque_buff = room_speed; 
+dano = noone;       
+ataque_buff = 0; 
+posso = true; 
 desenhar_vida = true
 // INVENCIBILIDADE
 invencivel = false;                  
